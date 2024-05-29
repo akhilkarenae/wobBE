@@ -36,7 +36,7 @@ const login = async (req, res, next) => {
       if (!user) {
         return res
           .status(400)
-          .send({ success: false, message: "" });
+          .send({ success: false, message: "user not found" });
       }
   
       const isMatch = await isValidPassword(password, user.password);
@@ -51,7 +51,7 @@ const login = async (req, res, next) => {
         name: user.fullName
       };
       const token = jwt.sign(payload, process.env.SECRET_KEY, {
-        expiresIn: `${process.env.EXPIRES_IN}`,
+        expiresIn: `${process.env.EXPIRES_IN}` || '1d',
       });
       return res
         .status(200)
